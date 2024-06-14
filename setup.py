@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name='mlModelSaver',
-    version='1.0.8',
+    version='1.0.9',
     packages=find_packages(),
     description='Make life easier for saving and serving ML models',
-    long_description=open('README.md').read(),  # Assumes you have a README.md file
+    long_description=open('DOCS.md').read(),  # Assumes you have a README.md file
     long_description_content_type='text/markdown',  # Specify the format of the long description
     author='Jason Jafari',
     author_email='me@jasonjafari.com',
@@ -26,7 +26,7 @@ setup(
         # 'scikit-learn>=0.22.0',
     ],
     project_urls={  # Optional
-        'Documentation': 'https://github.com/smartdev-ca/mlModelSaver/wiki',
+        'Documentation': 'https://github.com/smartdev-ca/mlModelSaver/blob/main/DOCS.md',
         'Source': 'https://github.com/smartdev-ca/mlModelSaver',
         'Tracker': 'https://github.com/smartdev-ca/mlModelSaver/issues',
     },
