@@ -6,10 +6,10 @@ const path = require("path");
 function incrementVersion(version) {
   let [major, minor, patch] = version.split(".").map(Number);
   patch += 1;
-  if (patch >= 10) {
+  if (patch >= 999) {
     patch = 0;
     minor += 1;
-    if (minor >= 10) {
+    if (minor >= 999) {
       minor = 0;
       major += 1;
     }
