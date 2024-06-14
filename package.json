@@ -1,6 +1,6 @@
 {
   "name": "mlModelSaver",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Make life easier for save and serving ml models",
   "main": "index.js",
   "repository": "git@github.com:smartdev-ca/mlModelSaver.git",
