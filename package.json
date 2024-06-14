@@ -1,10 +1,18 @@
 {
   "name": "mlModelSaver",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Make life easier for save and serving ml models",
   "main": "index.js",
   "repository": "git@github.com:smartdev-ca/mlModelSaver.git",
   "author": "Jason Jafari <me@jasonjafari.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "husky": "^9.0.11"
+  },
+  "scripts": {
+    "increase-version": "npm --force --no-git-tag-version version patch",
+    "healthy-check": "ls -la",
+    "prepare": "husky install"
+  }
 }
