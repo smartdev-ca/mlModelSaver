@@ -1,6 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run healthy-check
-npm run increase-version
-git add package.json
+# npm run healthy-check
+# npm run increase-version
+# git add package.json

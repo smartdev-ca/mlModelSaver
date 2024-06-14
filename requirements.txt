@@ -9,7 +9,6 @@ jaraco.functools==4.0.1
 keyring==25.2.1
 markdown-it-py==3.0.0
 mdurl==0.1.2
--e git+ssh://git@github.com/smartdev-ca/mlModelSaver.git@a0fb6ac93d247e7aba3c2b1f901db279e782e996#egg=mlModelSaver
 more-itertools==10.3.0
 nh3==0.2.17
 pkginfo==1.11.1
