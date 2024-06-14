@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mlModelSaver',
-    version='1.0.7',
+    version='1.0.8',
     packages=find_packages(),
     description='Make life easier for saving and serving ML models',
     long_description=open('README.md').read(),  # Assumes you have a README.md file
@@ -11,12 +11,13 @@ setup(
     author_email='me@jasonjafari.com',
     url='https://github.com/smartdev-ca/mlModelSaver',  # URL to your package repository
     classifiers=[
+       'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
-        'License :: MIT License',  # Specify your license
-        'Programming Language :: Python :: 3.9 or above',
+        'License :: OSI Approved :: MIT License',  # Correct classifier for the MIT License
+        'Programming Language :: Python :: 3.9',
     ],
     keywords='machine learning model saving serving',  # Keywords for your package
     install_requires=[
