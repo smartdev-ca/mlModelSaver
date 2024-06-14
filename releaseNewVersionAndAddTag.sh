@@ -8,6 +8,8 @@ new_version=$(node -p "require('./package.json').version")
 rm -rf build
 rm -rf dist
 
+pytest -s -v
+
 python setup.py sdist bdist_wheel
 
 twine upload dist/*
