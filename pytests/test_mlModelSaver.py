@@ -8,7 +8,7 @@ sys.path.insert(
     os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
-            '../mlModelSaver'
+            '..'
         )
     )
 )
@@ -21,7 +21,7 @@ def test_ensureCLassInstance():
         "modelsFolder": "test_modelsFolder"
     })
     assert mlModelSaverInstance1.baseRelativePath == "test_baseRelativePath"
-    assert mlModelSaverInstance1.modelsFolder == "test_modelsFolder"
+    assert mlModelSaverInstance1.modelsFolder == "test_baseRelativePath/test_modelsFolder"
     tesSupportedModels = mlModelSaverInstance1.showSupportedModels()
     assert tesSupportedModels == ['sm.OLS']
 
@@ -31,22 +31,25 @@ def test_OLS_LinearRegression():
     import numpy as np
     import pandas as pd
     import statsmodels.api as sm
+    from helpers import add_constant_column
     salaryMisDf = pd.read_excel("./datasets/Salary_MIS.xlsx")
     salaryBasedOnGpaMisStatistics = sm.OLS(
         salaryMisDf["Salary"],
-        sm.add_constant(salaryMisDf[["GPA", "MIS", "Statistics"]])
+        add_constant_column(salaryMisDf[["GPA", "MIS", "Statistics"]])
     )
     salaryBasedOnGpaMisStatisticsFit = salaryBasedOnGpaMisStatistics.fit()
     mlModelSaverInstance2 = MlModelSaver({
         "baseRelativePath": ".",
-        "modelsFolder": "~~tmp/models"
+        "modelsFolder": "~~tmp/testModels"
     })
 
-    mlModelSaverInstance2.exportModel(
+
+
+    loadedModel = mlModelSaverInstance2.exportModel(
         salaryBasedOnGpaMisStatisticsFit,
         {
-            "modelName": "salaryBasedOnGpaMisStatisticsFit",
-            "description": "Predict Salary based on GPA MIS Statistics for sallaryMisDf",
+            "modelName": "salaryBasedOnGpaMisStatistics",
+            "description": "Predict Salary based on GPA MIS Statistics for salaryMisDf",
             "modelType": "sm.OLS",
             "inputs": [
                 {
@@ -62,7 +65,8 @@ def test_OLS_LinearRegression():
                     "type": "binary"
                 }
             ],
-            "output": [
+            "transformer": add_constant_column,
+            "outputs": [
                 {
                     "name": "Salary",
                     "type": "int"
@@ -70,4 +74,9 @@ def test_OLS_LinearRegression():
             ]
         }
     )
-    assert 2 == 2
+    from mlModelSaver import check_file_exists
+    assert check_file_exists("./~~tmp/testModels/salaryBasedOnGpaMisStatistics.pkl") == True
+    testData = salaryMisDf[["GPA", "MIS", "Statistics"]].iloc[0:2]
+    predictedValueWithLoadedModel = loadedModel.mlModelSavePredict(testData, 'normal')
+    assert  predictedValueWithLoadedModel == [{'Salary': 73.9924679451542}, {'Salary': 69.55525482441558}]
+    assert list(mlModelSaverInstance2.cachedModels.keys()) == ['salaryBasedOnGpaMisStatistics']

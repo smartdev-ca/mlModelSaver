@@ -36,3 +36,11 @@ python setup.py sdist bdist_wheel
 ```
 twine upload dist/*
 ```
+
+## Run Jupyter notebooks
+```
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+jupyter notebook \
+        --notebook-dir="./notebooks" \
+        --ip=0.0.0.0 --port=3225
+```
