@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mlModelSaver',
-    version='1.0.13',
+    version='1.0.14',
     packages=find_packages(),
     description='Make life easier for saving and serving ML models',
     long_description=open('DOCS.md').read(),  # Assumes you have a README.md file
@@ -21,9 +21,11 @@ setup(
     ],
     keywords='machine learning model saving serving',  # Keywords for your package
     install_requires=[
-        # List of dependencies, e.g.:
-        # 'numpy>=1.18.0',
-        # 'scikit-learn>=0.22.0',
+        'numpy>=1.26.4',
+        'pandas>=2.2.2',
+        'scikit-learn>=1.5.0',
+        'statsmodels>=0.14.2',
+        'matplotlib>=3.9.0',
     ],
     project_urls={  # Optional
         'Documentation': 'https://github.com/smartdev-ca/mlModelSaver/blob/main/DOCS.md',
