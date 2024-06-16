@@ -7,6 +7,200 @@ While numerous tools are available for training machine learning models, many li
 
 **[mlModelSaver](https://github.com/smartdev-ca/mlModelSaver)** fills this gap, offering an intuitive way to save machine learning models and transformers. It facilitates seamless integration with frameworks like FastAPI ([Examples](https://github.com/jafarijason/ml_models_deployments)), Flask, and Django, enabling easy deployment and serving of models in production environments. Empower your machine learning workflow with **mlModelSaver** – the easy and efficient tool for model management.
 
+## [Demo](https://ml.jasonjafari.com/docs)
+
+```bash
+curl --location 'https://ml.jasonjafari.com/models/list'
+```
+
+result
+```
+[
+    "logisticRegYFromX1AndX2ModelFit",
+    "salaryBasedOnGpaMisStatistics_Transfoms_misXStatisticsFit",
+    "modelPredictSaleByTemperatureAdvertisingDiscountFit",
+    "wageEducAgePower2ModelFit",
+    "logRentWithBedsandLogSqftFit",
+    "spamBasedOnRecipientsHyperlinksCharactersLogitModelFit",
+    ...
+]
+```
+
+### demo example 1
+modelPredictSaleByTemperatureAdvertisingDiscountFit [train notebook](https://github.com/jafarijason/ml_models_deployments/blob/master/notebooks/001.ipynb)
+
+Model info
+```
+curl --location 'https://ml.jasonjafari.com/model/info/modelPredictSaleByTemperatureAdvertisingDiscountFit'
+```
+result
+```
+{
+    "modelName": "modelPredictSaleByTemperatureAdvertisingDiscountFit",
+    "description": "modelPredictSaleByTemperatureAdvertisingDiscountFit",
+    "modelType": "sm.OLS",
+    "inputs": [
+        {
+            "name": "Temperature",
+            "type": "float"
+        },
+        {
+            "name": "Advertising",
+            "type": "float"
+        },
+        {
+            "name": "Discount",
+            "type": "float"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "Sales",
+            "type": "float"
+        }
+    ]
+}
+```
+
+predict
+```bash
+curl --location 'https://ml.jasonjafari.com/model/predict' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "modelPredictSaleByTemperatureAdvertisingDiscountFit",
+    "inputs": [
+        {
+            "Temperature": 42,
+            "Advertising": 15,
+            "Discount": 5
+        }
+    ]
+}'
+```
+result
+```
+[
+    {
+        "Sales": 19590.467270313893
+    }
+]
+```
+
+### demo example2 [train Notebook](https://github.com/jafarijason/ml_models_deployments/blob/master/notebooks/002.ipynb) * interaction transformer
+salaryBasedOnGpaMisStatistics_Transfoms_misXStatisticsFit
+
+```bash
+# info
+curl --location 'https://ml.jasonjafari.com/model/info/salaryBasedOnGpaMisStatistics_Transfoms_misXStatisticsFit'
+```
+```bash
+# predict
+curl --location 'https://ml.jasonjafari.com/model/predict' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "salaryBasedOnGpaMisStatistics_Transfoms_misXStatisticsFit",
+    "inputs": [
+        {
+            "GPA": 3.53,
+            "MIS": 1,
+            "Statistics": 0
+        }
+    ]
+}'
+```
+
+### demo example3 [train Notebook](http://jasons-macbook-pro.local:3225/notebooks/003.ipynb) * quadratic eq transformer
+wageEducAgePower2ModelFit
+```bash
+# info
+curl --location 'https://ml.jasonjafari.com/model/info/wageEducAgePower2ModelFit'
+```
+```bash
+# predict
+curl --location 'https://ml.jasonjafari.com/model/predict' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "wageEducAgePower2ModelFit",
+    "inputs": [
+        {
+            "Educ": 12,
+            "Age": 76
+        }
+    ]
+}'
+```
+
+### demo example4 [train Notebook](http://jasons-macbook-pro.local:3225/notebooks/004.ipynb) * log eq transformer for dependent adn independent attributes
+logRentWithBedsandLogSqftFit
+```bash
+# info
+curl --location 'https://ml.jasonjafari.com/model/info/logRentWithBedsandLogSqftFit'
+```
+```bash
+# predict
+curl --location 'https://ml.jasonjafari.com/model/predict' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "logRentWithBedsandLogSqftFit",
+    "inputs": [
+        {
+            "Beds": 2,
+            "Sqft": 900
+        }
+    ]
+}'
+```
+
+
+### demo example5 [train Notebook](http://jasons-macbook-pro.local:3225/notebooks/005_Linear_Probability_and_logistic_Regression.ipynb) * Logistic regression
+logisticRegYFromX1AndX2ModelFit
+```bash
+# info
+curl --location 'https://ml.jasonjafari.com/model/info/logisticRegYFromX1AndX2ModelFit'
+```
+```bash
+# predict
+curl --location 'https://ml.jasonjafari.com/model/predict' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "logisticRegYFromX1AndX2ModelFit",
+    "inputs": [
+        {
+            "x1": 16.35,
+            "x2": 49.44
+        }
+    ]
+}'
+```
+
+### demo example6 [train Notebook](http://jasons-macbook-pro.local:3225/notebooks/007_KNN_adjusted.ipynb) * KNN
+gymEnrollAgeIncomeHoursDfKnnFit
+```bash
+# info
+curl --location 'https://ml.jasonjafari.com/model/info/gymEnrollAgeIncomeHoursDfKnnFit'
+```
+```bash
+# predict
+curl --location 'https://ml.jasonjafari.com/model/predict' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "gymEnrollAgeIncomeHoursDfKnnFit",
+    "inputs": [
+        {
+            "Age": 26,
+            "Income": 18000,
+            "Hours": 14
+        },
+        {
+            "Age": 55,
+            "Income": 42000,
+            "Hours": 16
+        }
+    ]
+}'
+```
+
+
 ## Installation
 
 You can install **mlModelSaver** via pip:
