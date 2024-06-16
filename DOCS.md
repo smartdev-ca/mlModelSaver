@@ -109,7 +109,7 @@ curl --location 'https://ml.jasonjafari.com/model/predict' \
 }'
 ```
 
-### demo example3 [train Notebook](http://jasons-macbook-pro.local:3225/notebooks/003.ipynb) * quadratic eq transformer
+### demo example3 [train Notebook](https://github.com/jafarijason/ml_models_deployments/blob/master/notebooks/003.ipynb) * quadratic eq transformer
 wageEducAgePower2ModelFit
 ```bash
 # info
@@ -130,7 +130,7 @@ curl --location 'https://ml.jasonjafari.com/model/predict' \
 }'
 ```
 
-### demo example4 [train Notebook](http://jasons-macbook-pro.local:3225/notebooks/004.ipynb) * log eq transformer for dependent adn independent attributes
+### demo example4 [train Notebook](https://github.com/jafarijason/ml_models_deployments/blob/master/notebooks/004.ipynb) * log eq transformer for dependent adn independent attributes
 logRentWithBedsandLogSqftFit
 ```bash
 # info
@@ -152,7 +152,7 @@ curl --location 'https://ml.jasonjafari.com/model/predict' \
 ```
 
 
-### demo example5 [train Notebook](http://jasons-macbook-pro.local:3225/notebooks/005_Linear_Probability_and_logistic_Regression.ipynb) * Logistic regression
+### demo example5 [train Notebook](https://github.com/jafarijason/ml_models_deployments/blob/master/notebooks/005_Linear_Probability_and_logistic_Regression.ipynb) * Logistic regression
 logisticRegYFromX1AndX2ModelFit
 ```bash
 # info
@@ -173,7 +173,7 @@ curl --location 'https://ml.jasonjafari.com/model/predict' \
 }'
 ```
 
-### demo example6 [train Notebook](http://jasons-macbook-pro.local:3225/notebooks/007_KNN_adjusted.ipynb) * KNN
+### demo example6 [train Notebook](https://github.com/jafarijason/ml_models_deployments/blob/master/notebooks/007_KNN_adjusted.ipynb) * KNN
 gymEnrollAgeIncomeHoursDfKnnFit
 ```bash
 # info
