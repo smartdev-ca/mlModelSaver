@@ -77,16 +77,16 @@ class MlModelSaver:
         self.modelsFolder = f'{self.baseRelativePath}/{config.get('modelsFolder', '~~modelsFolder')}'
         ensure_directory_exists(self.modelsFolder)
 
-    def listOfPickels(self):
+    def listOfPickles(self):
         files = os.listdir(self.modelsFolder)
-        pickelsList = [file for file in files if file.endswith('.pkl')]
-        return pickelsList
+        picklesList = [file for file in files if file.endswith('.pkl')]
+        return picklesList
 
     def listOfModels(self):
-        pickelsList = self.listOfPickels()
+        picklesList = self.listOfPickles()
         modelsList = []
-        for pickekFileName in pickelsList:
-            modelsList.append(pickekFileName.split(".pkl")[0])
+        for pickleFileName in picklesList:
+            modelsList.append(pickleFileName.split(".pkl")[0])
         return modelsList
 
 
@@ -94,6 +94,12 @@ class MlModelSaver:
     def showSupportedModels(self):
         supported_keys = [key for key, value in supportedModels.items() if value.get('supported')]
         return supported_keys
+
+    def loadModelByName(self, modelName):
+        filename = f'{self.modelsFolder}/{modelName}.pkl'
+        loaded_model = pickle.load(open(filename, 'rb'))
+        self.cachedModels[loaded_model.mlModelSaverConfig.get("modelName")] = loaded_model
+        return loaded_model
 
     def exportModel(self, model, config):
         transformer = config.get("transformer", default_transformer)
@@ -111,8 +117,12 @@ class MlModelSaver:
         model.mlModelSavePredict = partial(mlModelSavePredict, model)
         filename = f'{self.modelsFolder}/{modelName}.pkl'
         pickle.dump(model, open(filename, 'wb'))
-        loaded_model = pickle.load(open(filename, 'rb'))
-        self.cachedModels[loaded_model.mlModelSaverConfig.get("modelName")] = loaded_model
-        return loaded_model
+        return self.loadModelByName(modelName)
+
+    def getModel(self, modelName):
+        model = self.cachedModels.get(modelName, None)
+        if model != None:
+            return model
+        return self.loadModelByName(modelName)
 
 
