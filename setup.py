@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mlModelSaver',
-    version='1.0.18',
+    version='1.0.19',
     packages=find_packages(),
     description='Make life easier for saving and serving ML models',
     long_description=open('DOCS.md').read(),  # Assumes you have a README.md file
@@ -26,6 +26,7 @@ setup(
         'scikit-learn>=1.5.0',
         'statsmodels>=0.14.2',
         'matplotlib>=3.9.0',
+        'dill>=0.3.8',
     ],
     project_urls={  # Optional
         'Documentation': 'https://github.com/smartdev-ca/mlModelSaver/blob/main/DOCS.md',
