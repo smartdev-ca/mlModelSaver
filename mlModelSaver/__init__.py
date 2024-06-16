@@ -77,7 +77,6 @@ def mlModelSavePredict(self, df, typeOfPredict = 'normal'):
     modelTypeConfig = supportedModels[modelType]
     if typeOfPredict == 'normal':
         results = getattr(self, modelTypeConfig['normalPredictorFunction'])(dfAfterTransformation)
-        print(results)
         for  value in results:
             if isinstance(value, np.ndarray):
                 res = {}
@@ -88,9 +87,6 @@ def mlModelSavePredict(self, df, typeOfPredict = 'normal'):
                 output.append({
                     outputsName[0]: value,
                 })
-            print(type(value))
-            print(value)
-            print(outputsName)
         return output
     return output
 
