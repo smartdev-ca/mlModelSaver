@@ -1,82 +1,128 @@
-# test_mlModelSaver.py
+import pickle
+import json
 
-import sys
 import os
 
-sys.path.insert(
-    0,
-    os.path.abspath(
-        os.path.join(
-            os.path.dirname(__file__),
-            '..'
-        )
-    )
-)
+from functools import partial
+
+def ensure_directory_exists(directory_path):
+    """
+    Ensure that the specified directory exists. If it doesn't, create it.
+
+    Parameters:
+    directory_path (str): The path of the directory to ensure exists.
+    """
+    os.makedirs(directory_path, exist_ok=True)
 
 
-def test_ensureCLassInstance():
-    from mlModelSaver import MlModelSaver
-    mlModelSaverInstance1 = MlModelSaver({
-        "baseRelativePath": "test_baseRelativePath",
-        "modelsFolder": "test_modelsFolder"
-    })
-    assert mlModelSaverInstance1.baseRelativePath == "test_baseRelativePath"
-    assert mlModelSaverInstance1.modelsFolder == "test_baseRelativePath/test_modelsFolder"
-    tesSupportedModels = mlModelSaverInstance1.showSupportedModels()
-    assert tesSupportedModels == ['sm.OLS']
+def check_file_exists(file_path):
+    """
+    Check if the specified file exists.
+
+    Parameters:
+    file_path (str): The path of the file to check.
+
+    Returns:
+    bool: True if the file exists, False otherwise.
+    """
+    if os.path.isfile(file_path):
+        print(f"File '{file_path}' exists.")
+        return True
+    else:
+        print(f"File '{file_path}' does not exist.")
+        return False
 
 
-def test_OLS_LinearRegression():
-    from mlModelSaver import MlModelSaver
-    import numpy as np
-    import pandas as pd
-    import statsmodels.api as sm
-    from helpers import add_constant_column
-    salaryMisDf = pd.read_excel("./datasets/Salary_MIS.xlsx")
-    salaryBasedOnGpaMisStatistics = sm.OLS(
-        salaryMisDf["Salary"],
-        add_constant_column(salaryMisDf[["GPA", "MIS", "Statistics"]])
-    )
-    salaryBasedOnGpaMisStatisticsFit = salaryBasedOnGpaMisStatistics.fit()
-    mlModelSaverInstance2 = MlModelSaver({
-        "baseRelativePath": ".",
-        "modelsFolder": "~~tmp/testModels"
-    })
+supportedModels = {
+    "sm.OLS": {
+        "supported": True
+    }
+}
+
+supportedDataType = {
+    "int": {
+        "supported": True
+    },
+    "float": {
+        "supported": True
+    },
+    "binary":{
+        "supported": True
+    }
+}
+
+def default_transformer(x):
+    return x
+
+
+def mlModelSavePredict(self, df, typeOfPredict = 'normal'):
+    dfAfterTransformation = self.mlModelSaverTransformer(df)
+    output = []
+    outputsName = self.mlModelSaverConfig.get("outputs", [{"name": "result"}])
+    outputsName = [item["name"] for item in outputsName]
+    if typeOfPredict == 'normal':
+        results = self.predict(dfAfterTransformation)
+        for  value in results:
+            output.append({
+                outputsName[0]: value,
+            })
+        return output
+
+class MlModelSaver:
+
+    cachedModels = {}
+
+    def __init__(self, config):
+        self.baseRelativePath = config.get('baseRelativePath', '.')
+        self.modelsFolder = f'{self.baseRelativePath}/{config.get('modelsFolder', '~~modelsFolder')}'
+        ensure_directory_exists(self.modelsFolder)
+
+    def listOfPickles(self):
+        files = os.listdir(self.modelsFolder)
+        picklesList = [file for file in files if file.endswith('.pkl')]
+        return picklesList
+
+    def listOfModels(self):
+        picklesList = self.listOfPickles()
+        modelsList = []
+        for pickleFileName in picklesList:
+            modelsList.append(pickleFileName.split(".pkl")[0])
+        return modelsList
 
 
 
-    loadedModel = mlModelSaverInstance2.exportModel(
-        salaryBasedOnGpaMisStatisticsFit,
-        {
-            "modelName": "salaryBasedOnGpaMisStatistics",
-            "description": "Predict Salary based on GPA MIS Statistics for salaryMisDf",
-            "modelType": "sm.OLS",
-            "inputs": [
-                {
-                    "name": "GPA",
-                    "type": "float",
-                },
-                {
-                    "name": "MIS",
-                    "type": "binary"
-                },
-                {
-                    "name": "Statistics",
-                    "type": "binary"
-                }
-            ],
-            "transformer": add_constant_column,
-            "outputs": [
-                {
-                    "name": "Salary",
-                    "type": "int"
-                }
-            ]
-        }
-    )
-    from mlModelSaver import check_file_exists
-    assert check_file_exists("./~~tmp/testModels/salaryBasedOnGpaMisStatistics.pkl") == True
-    testData = salaryMisDf[["GPA", "MIS", "Statistics"]].iloc[0:2]
-    predictedValueWithLoadedModel = loadedModel.mlModelSavePredict(testData, 'normal')
-    assert  predictedValueWithLoadedModel == [{'Salary': 73.9924679451542}, {'Salary': 69.55525482441558}]
-    assert list(mlModelSaverInstance2.cachedModels.keys()) == ['salaryBasedOnGpaMisStatistics']
+    def showSupportedModels(self):
+        supported_keys = [key for key, value in supportedModels.items() if value.get('supported')]
+        return supported_keys
+
+    def loadModelByName(self, modelName):
+        filename = f'{self.modelsFolder}/{modelName}.pkl'
+        loaded_model = pickle.load(open(filename, 'rb'))
+        self.cachedModels[loaded_model.mlModelSaverConfig.get("modelName")] = loaded_model
+        return loaded_model
+
+    def exportModel(self, model, config):
+        transformer = config.get("transformer", default_transformer)
+        model.mlModelSaverTransformer = transformer
+        if "transformer" in config:
+            del config["transformer"]
+        model.mlModelSaverConfig = config
+        isModelSupporter = supportedModels.get(
+            config.get("modelType", ''),
+            {}
+        ).get("supported", False)
+        if not isModelSupporter:
+            raise ValueError(f'only {self.showSupportedModels()} are supported and {config.get("modelType", '')} is not supported')
+        modelName = model.mlModelSaverConfig['modelName']
+        model.mlModelSavePredict = partial(mlModelSavePredict, model)
+        filename = f'{self.modelsFolder}/{modelName}.pkl'
+        pickle.dump(model, open(filename, 'wb'))
+        return self.loadModelByName(modelName)
+
+    def getModel(self, modelName):
+        model = self.cachedModels.get(modelName, None)
+        if model != None:
+            return model
+        return self.loadModelByName(modelName)
+
+

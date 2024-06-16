@@ -77,6 +77,18 @@ class MlModelSaver:
         self.modelsFolder = f'{self.baseRelativePath}/{config.get('modelsFolder', '~~modelsFolder')}'
         ensure_directory_exists(self.modelsFolder)
 
+    def listOfPickels(self):
+        files = os.listdir(self.modelsFolder)
+        pickelsList = [file for file in files if file.endswith('.pkl')]
+        return pickelsList
+
+    def listOfModels(self):
+        pickelsList = self.listOfPickels()
+        modelsList = []
+        for pickekFileName in pickelsList:
+            modelsList.append(pickekFileName.split(".pkl")[0])
+        return modelsList
+
 
 
     def showSupportedModels(self):
@@ -102,3 +114,5 @@ class MlModelSaver:
         loaded_model = pickle.load(open(filename, 'rb'))
         self.cachedModels[loaded_model.mlModelSaverConfig.get("modelName")] = loaded_model
         return loaded_model
+
+
