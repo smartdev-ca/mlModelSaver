@@ -36,6 +36,9 @@ def check_file_exists(file_path):
 supportedModels = {
     "sm.OLS": {
         "supported": True
+    },
+    "sm.Logit": {
+        "supported": True
     }
 }
 
@@ -47,6 +50,9 @@ supportedDataType = {
         "supported": True
     },
     "binary":{
+        "supported": True
+    },
+    "probebility":{
         "supported": True
     }
 }
