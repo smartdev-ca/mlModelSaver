@@ -97,6 +97,7 @@ supportedModels = {
         "normalPredictorFunction": "predict_proba"
     },
 }
+```
 
 
 
