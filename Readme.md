@@ -2,6 +2,8 @@
 
 ## Project page in pypi
 [mlModelSaver](https://pypi.org/project/mlModelSaver/)
+## [Tutorial youtube](https://www.youtube.com/watch?v=fchTlNk2P8s)
+## [Documentation](https://pypi.org/project/mlModelSaver/)
 
 ## How to install virtualenv
 
