@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mlModelSaver',
-    version='1.0.28',
+    version='1.0.29',
     packages=find_packages(),
     description='Make life easier for saving and serving ML models',
     long_description=open('DOCS.md').read(),  # Assumes you have a README.md file
