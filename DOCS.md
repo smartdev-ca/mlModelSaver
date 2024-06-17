@@ -230,9 +230,16 @@ def add_constant_columnTransformer(df):
     df_with_const.insert(0, 'const', 1)
     return df_with_const
 
+from mlModelSaver import MlModelSaver
+mlModelSaverInstance = MlModelSaver({
+    "baseRelativePath": "..",
+    "modelsFolder": "models"
+})
+
 # Export the model using MlModelSaver
 loadedModel = mlModelSaverInstance.exportModel(
-    simpleLinearRegressionFittedModel, # the models is fitted and ready for usage
+     # the models is fitted and ready for usage
+    simpleLinearRegressionFittedModel,
     {
         "modelName": "modelPredictSaleByTemperatureAdvertisingDiscountFit",
         "description": "Example model predicting sales based on temperature, advertising, and discount.",
