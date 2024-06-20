@@ -27,7 +27,7 @@ def test_ensureCLassInstance():
         'sm.OLS',
         'sm.Logit',
         'sklearn.neighbors.KNeighborsClassifier',
-        'sklearn.tree.DecisionTreeClassifier"'
+        'sklearn.tree.DecisionTreeClassifier'
     ]
 
 
