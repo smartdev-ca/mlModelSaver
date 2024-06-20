@@ -23,7 +23,12 @@ def test_ensureCLassInstance():
     assert mlModelSaverInstance1.baseRelativePath == "test_baseRelativePath"
     assert mlModelSaverInstance1.modelsFolder == "test_baseRelativePath/test_modelsFolder"
     tesSupportedModels = mlModelSaverInstance1.showSupportedModels()
-    assert tesSupportedModels == ['sm.OLS', 'sm.Logit', 'sklearn.neighbors.KNeighborsClassifier']
+    assert tesSupportedModels == [
+        'sm.OLS',
+        'sm.Logit',
+        'sklearn.neighbors.KNeighborsClassifier',
+        'sklearn.tree.DecisionTreeClassifier"'
+    ]
 
 
 def test_OLS_LinearRegression():
