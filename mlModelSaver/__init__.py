@@ -47,6 +47,10 @@ supportedModels = {
         "supported": True,
         "normalPredictorFunction": "predict_proba"
     },
+    "sklearn.tree.DecisionTreeClassifier": {
+        "supported": True,
+        "normalPredictorFunction": "predict_proba"
+    },
 }
 
 supportedDataType = {
